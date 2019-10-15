@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ChuckNorrisJokes.com</title>
+    <style>
+      body{
+        display: grid;
+        place-items: center;
+        height: 100vh;
+        background-color: papayawhip;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Click for a Joke</h1>
+      <div>
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName">
+      </div>
+      <button>Click Me!</button>
+    </main>
+    <script>
+      const joke = document.querySelector('h1')
+      const button = document.querySelector('button')
+
+        //fetch the API
+      function fetchJoke(){
+        joke.textContent = "Loading...."
+        const firstName = document.querySelector('#firstName').value
+        const lastName = document.querySelector('#lastName').value
+        let url = "http://api.icndb.com/jokes/random?limitTo=[nerdy]"
+        //this is a shortcut to if/ 
+        if (firstName) url += `&firstName=${firstName}`
+        if (lastName) url += `&lastName=${lastName}`
+        fetch(url)
+          .then(response => response.json())
+          .then(data => joke.textContent = data.value.joke)
+          .catch(error => joke.textContent = "Ooops, something went wrong...")
+      }
+
+      button.addEventListener('click', fetchJoke)
+    </script>
+  </body>
+</html>
